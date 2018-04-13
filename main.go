@@ -22,6 +22,7 @@ var split bool = false
 func main() {
 	flag.StringVar(&path, "path", ".", "工作路径")
 	flag.BoolVar(&split, "split", false, "是否切割图片")
+	flag.Parse()
 
 	fmt.Println("work path:", path)
 
