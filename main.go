@@ -8,6 +8,7 @@ import (
 	"image"
 	"errors"
 	"regexp"
+	"flag"
 //	"path/filepath"
 	"image/jpeg"
 //	"image/png"
@@ -15,17 +16,16 @@ import (
 	"github.com/oliamb/cutter"
 )
 
+var path string = "."
+var split bool = false
+
 func main() {
-	path := "."
-	if len(os.Args) > 1 {
-		path = os.Args[1]
-	}
+	flag.StringVar(&path, "path", ".", "工作路径")
+	flag.BoolVar(&split, "split", false, "是否切割图片")
 
 	fmt.Println("work path:", path)
 
 	listFile(path)
-	
-
 }
 
 func listFile(folder string) {
@@ -72,8 +72,11 @@ func splitImage(name string) error {
 		return nil
 	}
 
+	if !split {
+		return nil
+	}
+
 	fmt.Println("Start split:", name, "size:", size)
-	return nil
 
 	croppedImg, err := cutter.Crop(img, cutter.Config{
 		Width:  size.X / 2,
