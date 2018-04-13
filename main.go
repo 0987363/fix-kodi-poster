@@ -73,6 +73,7 @@ func splitImage(name string) error {
 		return nil
 	}
 
+	fmt.Println("Found image:", name, size)
 	if !split {
 		return nil
 	}
@@ -88,7 +89,7 @@ func splitImage(name string) error {
 	if err != nil {
 		return errors.New("Crop image failed:" + err.Error())
 	}
-	err = newImage(croppedImg, name + ".bk.jpg")
+	err = newImage(croppedImg, name)
 	if err != nil {
 		return err
 	}
@@ -98,6 +99,8 @@ func splitImage(name string) error {
 }
 
 func newImage(img image.Image, file string) error {
+	os.Rename(file, file + ".bk.jpg")
+
 	fo, err := os.Create(file)
 	if err != nil {
 		return err
